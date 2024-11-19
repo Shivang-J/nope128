@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int knapsackBacktracking(const vector<int>& values, const vector<int>& weights, int capacity, int n) {
+    if (n == 0 || capacity == 0) {
+        return 0;
+    }
+    if (weights[n - 1] > capacity) {
+        return knapsackBacktracking(values, weights, capacity, n - 1);
+    }
+    int include = values[n - 1] + knapsackBacktracking(values, weights, capacity - weights[n - 1], n - 1);
+        int exclude = knapsackBacktracking(values, weights, capacity, n - 1);
+    return max(include, exclude);
+}
+
+int main() {
+    vector<int> values = {60, 100, 120}; 
+    vector<int> weights = {10, 20, 30};   
+    int capacity = 50;                    
+    int n = values.size();                
+    int maxValue = knapsackBacktracking(values, weights, capacity, n);
+    cout << "Maximum value in Knapsack = " << maxValue << endl;
+
+    return 0;
+}
